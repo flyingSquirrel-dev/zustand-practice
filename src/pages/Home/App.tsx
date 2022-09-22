@@ -1,20 +1,18 @@
 import { Flex } from "components/Flex";
 import { Loader } from "components/Loader";
 import { Spacing } from "components/Spacing";
-import { Suspense, useState } from "react";
+import { Suspense } from "react";
 
-import { useSuspendedDummyList } from "./hook/useSuspendedDummyList";
+import { useDummyList } from "./hook/useDummyList";
 
 function Component() {
-  const [pageNumber, setPageNumber] = useState<number>(0);
-
-  const { data } = useSuspendedDummyList({ pageNumber });
+  const { products, loadPage } = useDummyList();
 
   return (
     <>
-      {data.products.length === 0
+      {products.length === 0
         ? <div>결과가 없어요</div>
-        : data.products.map(product => (
+        : products.map(product => (
           <Flex key={product.id} gap={10}>
             <div>{product.id}</div>
             <div>{product.title}</div>
@@ -22,10 +20,10 @@ function Component() {
         ))}
       <Spacing size={20} />
       <Flex gap={10}>
-        <button onClick={() => setPageNumber(prevState => (prevState - 1))}>
+        <button onClick={() => loadPage('prevPage')}>
           이전 페이지
         </button>
-        <button onClick={() => setPageNumber(prevState => prevState + 1)}>
+        <button onClick={() => loadPage('nextPage')}>
           다음 페이지
         </button>
       </Flex>
@@ -43,6 +41,7 @@ function Fallback() {
 }
 
 export default function App() {
+  // TODO: zustand가 기본적으로 <Suspense /> 지원하지 않는 듯. 맞나 확인해보기
   return (
     <Suspense fallback={<Fallback />}>
       <Component />

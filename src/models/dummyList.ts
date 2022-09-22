@@ -1,4 +1,4 @@
-interface DummyListItem {
+export interface DummyListItem {
   brand: string;
   category: string;
   description: string;
