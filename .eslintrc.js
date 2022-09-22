@@ -1,6 +1,7 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   "plugins": [
+    "@emotion",
     "@typescript-eslint",
     "simple-import-sort"
   ],
