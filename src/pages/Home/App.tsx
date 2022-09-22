@@ -1,11 +1,23 @@
-import './App.css';
+import { Suspense } from "react";
 
-function App() {
+import { useSuspendedDummyList } from "./hook/useSuspendedDummyList";
+
+function Component() {
+  const { data } = useSuspendedDummyList();
+
   return (
-    <div className="App">
-      Hello World!
-    </div>
+    <>
+      {data?.products.map(product => (
+        <div key={product.id}>title: {product.title}</div>
+      ))}
+    </>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <Suspense fallback={<div>로딩</div>}>
+      <Component />
+    </Suspense>
+  )
+}
